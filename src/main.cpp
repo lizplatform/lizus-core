@@ -377,7 +377,7 @@ bool IsStandardTx(const CTransaction& tx, string& reason)
 		return false;
 	}
 	// nTime has different purpose from nLockTime but can be used in similar attacks
-	if (tx.nTime > FutureDrift(GetAdjustedTime())) {
+    if (tx.nTime > FutureDrift(GetAdjustedTime())) {
 		reason = "time-too-new";
 		return false;
 	}
@@ -756,7 +756,6 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CTransaction &tx, bool fLimitFree,
 			}
 		}
 	}
-
 	// Check for conflicts with in-memory transactions
 	{
 	LOCK(pool.cs); // protect pool.mapNextTx
@@ -2508,7 +2507,7 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot, bool fCheckSig) c
 		return DoS(50, error("CheckBlock() : proof of work failed"));
 
 	// Check timestamp
-	if (GetBlockTime() > FutureDrift(GetAdjustedTime()))
+    if (GetBlockTime() > FutureDrift(GetAdjustedTime()))
 		return error("CheckBlock() : block timestamp too far in the future");
 
 	// First transaction must be coinbase, the rest must not be
@@ -2749,7 +2748,7 @@ bool CBlock::AcceptBlock()
 		return DoS(100, error("AcceptBlock() : reject proof-of-stake at height <= %d", nHeight));
 
 	// Check coinbase timestamp
-	if (GetBlockTime() > FutureDrift((int64_t)vtx[0].nTime) && IsProofOfStake())
+    if (GetBlockTime() > FutureDrift((int64_t)vtx[0].nTime) && IsProofOfStake())
 		return DoS(50, error("AcceptBlock() : coinbase timestamp is too early"));
 
 	// Check coinstake timestamp
@@ -2761,7 +2760,7 @@ bool CBlock::AcceptBlock()
 		return DoS(100, error("AcceptBlock() : incorrect %s", IsProofOfWork() ? "proof-of-work" : "proof-of-stake"));
 
 	// Check timestamp against prev
-	if (GetBlockTime() <= pindexPrev->GetPastTimeLimit() || FutureDrift(GetBlockTime()) < pindexPrev->GetBlockTime())
+    if (GetBlockTime() <= pindexPrev->GetPastTimeLimit() || FutureDrift(GetBlockTime()) < pindexPrev->GetBlockTime())
 		return error("AcceptBlock() : block's timestamp is too early");
 
 	// Check that all transactions are finalized
@@ -4401,7 +4400,7 @@ bool ProcessMessages(CNode* pfrom)
 		if (!fRet)
 			LogPrintf("ProcessMessage(%s, %u bytes) FAILED\n", strCommand, nMessageSize);
 
-		break;
+		//break;
 	}
 
 	// In case the connection got shut down, its receive buffer was wiped

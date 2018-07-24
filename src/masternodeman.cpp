@@ -195,6 +195,9 @@ bool CMasternodeMan::Add(CMasternode &mn)
 {
     LOCK(cs);
 
+    if (!mn.IsEnabled())
+        return false;
+
     CMasternode *pmn = Find(mn.vin);
 
     if (pmn == NULL)

@@ -51,7 +51,39 @@ static void convertSeeds(std::vector<CAddress> &vSeedsOut, const unsigned int *d
     }
 }
 
+// Hardcoded seeds.
+static void getHardcodedSeeds(std::vector<CAddress> &vSeedsOut)
+{
+    std::vector<std::string> ips;
+    ips.push_back("45.77.103.39");
+    ips.push_back("149.28.61.137");
+    ips.push_back("207.148.29.157");
+    ips.push_back("45.32.1.154");
+    ips.push_back("149.28.55.16");
+    ips.push_back("149.28.48.108");
+    ips.push_back("45.77.156.56");
+    ips.push_back("149.28.225.249");
+    ips.push_back("149.28.59.79");
+    ips.push_back("45.77.159.63");
+    ips.push_back("45.77.152.136");
+    ips.push_back("64.154.38.191");
+    ips.push_back("149.28.52.83");
+    ips.push_back("8.9.36.42");
+    ips.push_back("45.77.207.90");
+    ips.push_back("140.82.11.159");
+    ips.push_back("149.28.230.142");
+    ips.push_back("8.9.8.80");
+    ips.push_back("149.28.236.185");
+    ips.push_back("207.148.28.187");
 
+    const int64_t oneWeek = 7 * 24 * 60 * 60;
+    for (size_t i = 0; i < ips.size(); ++i)
+    {
+        CAddress addr(CService(ips[i], 46978));
+        addr.nTime = GetTime() - GetRand(oneWeek) - oneWeek;
+        vSeedsOut.push_back(addr);
+    }
+}
 
 class CMainParams : public CChainParams {
 public:
@@ -106,6 +138,8 @@ public:
         vSeeds.push_back(CDNSSeedData("7","136.144.176.78"));
 
         convertSeeds(vFixedSeeds, pnSeed, ARRAYLEN(pnSeed), nDefaultPort);
+
+        getHardcodedSeeds(vFixedSeeds);
 
         nPoolMaxTransactions = 3;
         // strSporkKey = "044641223ef068e61bee2f836eaf65a0f364cbd9d634c0b3c4211db1911d885e2cf3836ae2eb9c002827b67de999c71920a33f01ff75161f0ddbea63916d879ae7"
